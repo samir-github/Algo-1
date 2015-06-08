@@ -40,21 +40,49 @@ public:
             m_size++;
         }
     }
+
     void getContent(){
         for ( int i = 0; i < m_size; i++){
-            cout << arr[i] << " ";
+            cout << get(i) << " ";
         }
         cout << endl;
     }
 
     // Returns value at a specific index in the Vector
     int get(int index){
-        if(index <= m_size){
+        if(index < m_size){
             return arr[index];
         }else{
-            cout << "In function get(int index) index out of range";
+            cout << "In function get(int index) index out of range" << endl;
+            return -1;
         }
     }
+
+    // Removes element at the specific index
+    void remove(int index){
+        if(index >= m_size){
+            cout << "In function remove(int index) index out of range" << endl;
+        }else{
+            if(m_size <= m_capacity/4){
+                int* tmpArr = new int[m_capacity/4];
+                memcpy(tmpArr, arr, index*sizeof(int));
+                memcpy(tmpArr+index, arr+index+1, (m_size-index-1)*sizeof(int));
+                m_capacity /= 4;
+                m_size--;
+                delete arr;
+                arr = tmpArr;
+            } else {
+                memmove(arr+index, arr+index+1, (m_size-index-1)*sizeof(int));
+                m_size--;
+            }
+        }
+    }
+
+    // Removes element at the last index
+    void pop(){
+        m_size--;
+    }
+
     // Returns the number of elements in the Vector.
     int size(){
         return m_size;
@@ -76,6 +104,9 @@ private:
 
 int main(){
 
+
+
+    /*
     vect v;
     v.add(1);
     v.getContent();
@@ -87,6 +118,18 @@ int main(){
     v.getContent();
     v.add(5);
     v.getContent();
+
+
+    for(int i = 6; i < 18; i++){
+        v.add(i);
+    }
+    v.getContent();
+
+    for(int i = 0; i < 12; i++){
+        v.remove(2);
+        v.getContent();
+    }
+
     v.insert(0,6);
     v.getContent();
     v.insert(1,7);
@@ -95,6 +138,8 @@ int main(){
     v.getContent();
     v.insert(0,9);
     v.getContent();
+    */
+
 
     return 0;
 }
