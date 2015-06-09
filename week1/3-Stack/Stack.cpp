@@ -1,22 +1,22 @@
 #include <iostream>
 
 using namespace std;
-
-
+/*
+#############################
+#########  QUEUE  ###########
+#############################
+*/
 template <class T>
 class Queue{
-
 
 private:
     struct Node{
         T value;
         Node* next;
     };
-
     int size_;
     Node* head_;
     Node* tail_;
-
 
 public:
     Queue(){
@@ -61,7 +61,7 @@ public:
             size_--;
             return toReturn;
         } else {
-            cout << "Cant pop, stack is empty ";
+            cout << " Cant pop, stack is empty ";
             return -1;
         }
     }
@@ -71,7 +71,7 @@ public:
         if(size_ > 0){
             return head_->value;
         } else {
-            cout << "Cant peek, stack is empty ";
+            cout << " Cant peek, stack is empty ";
             return -1;
         }
     }
@@ -89,6 +89,54 @@ public:
         cout << endl;
     }
 };
+/*
+#############################
+#########  STACK  ###########
+#############################
+*/
+template<class T>
+class Stack{
+
+private:
+    Queue<T> q;
+public:
+
+    // Adds value to the end of the Stack.
+    void push(T const& value){
+        q.push(value);
+    }
+    // Returns value from the end of the Stack and removes it.
+    T pop(){
+        if(q.size()){
+            for(int i = 0; i < q.size()-1; i++){
+                q.push(q.pop());
+            }
+            return q.pop();
+        } else {
+            cout << "Cant pop queue is empty" << endl;
+            return -1;
+        }
+    }
+    // Returns value from the end of the Stack without removing it.
+    T peek() {
+        if(q.size()){
+            for(int i = 0; i < q.size()-1; i++){
+                q.push(q.pop());
+            }
+            T toReturn = q.peek();
+            q.push(q.pop());
+            return toReturn;
+        } else {
+            cout << "Cant peek queue is empty" << endl;
+            return -1;
+        }
+    }
+    // Returns the number of elements in the Stack.
+    int size(){
+        return q.size();
+    }
+
+};
 
 
 
@@ -96,22 +144,25 @@ public:
 
 int main(){
 
-    Queue<int> q;
-    q.push(5);
-    cout << q.peek() << endl;
-    q.push(6);
-    q.push(7);
-    q.push(8);
-    cout << q.peek() << endl;
-    q.DBG_getContent();
+    Stack<int> st;
+
+    st.push(1);
+    cout << st.peek() << endl;
+    st.push(2);
+    cout << st.peek() << endl;
+    st.push(3);
+    cout << st.peek() << endl;
+    st.push(4);
+    cout << st.peek() << endl;
     cout << endl;
-    while(q.size()){
-        cout << q.pop() << endl;
+    cout << st.pop() << endl;
+    cout << st.peek() << endl;
+    while(st.size()){
+        cout << st.pop() << " ";
     }
-    cout << q.pop() << endl;
-    cout << q.peek() << endl;
-
-
+    cout << endl;
+    cout << st.pop() << endl;
+    cout << st.peek() << endl;
 
     return 0;
 }
