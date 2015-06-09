@@ -41,15 +41,27 @@ public:
 
     // Returns value from the front of the Queue and removes it.
     T pop(){
-        return head_->value;
-        Node* tmp = head_;
-        head_ = head_->next;
-        delete tmp;
+        if(size_ > 0){
+            T toReturn = head_->value;
+            Node* tmp = head_;
+            head_ = head_->next;
+            delete tmp;
+            size_--;
+            return toReturn;
+        } else {
+            cout << " Cant pop, stack is empty ";
+            return -1;
+        }
     }
 
     // Returns value from the front of the Queue without removing it.
     T peek() const{
-        return head_->value;
+        if(size_ > 0){
+            return head_->value;
+        } else {
+            cout << " Cant pop, stack is empty ";
+            return -1;
+        }
     }
     // Returns the number of elements in the Queue.
     int size() const{
@@ -62,6 +74,7 @@ public:
             cout << current->value << " ";
             current = current->next;
         }
+        cout << endl;
     }
 
 private:
@@ -92,6 +105,10 @@ int main(){
     q.push(8);
     cout << q.peek() << endl;
     q.DBG_getContent();
+    cout << endl;
+    while(q.size() > 0){
+        cout << q.pop() << endl;
+    }
 
 
 
