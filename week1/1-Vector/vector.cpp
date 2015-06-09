@@ -7,6 +7,10 @@ class vect {
 
 public:
 
+    ~vect(){
+        delete arr;
+    };
+
     // Adds value at a specific index in the Vector.
     void insert(int index, int value){
         if(m_size == m_capacity){
