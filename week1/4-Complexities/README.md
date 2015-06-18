@@ -15,7 +15,7 @@ is_prime(number) {
 }
 ```
 
-Complexity: O(n)
+Complexity: ...
 
 ## Checking if a string is palindrome
 
@@ -37,7 +37,7 @@ is_palindrome(string) {
 }
 ```
 
-Complexity: O(n)
+Complexity: ...
 
 ## Summing elements of a matrix
 
@@ -49,7 +49,7 @@ for (i = 0; i < n; i++) {
 }
 ```
 
-Complexity: O(n^2)
+Complexity: ...
 
 ## Counting 1
 
@@ -61,7 +61,7 @@ for (i = 0; i < n; i++) {
 }
 ```
 
-Complexity: O(n^2)
+Complexity: ...
 
 ## Counting 2
 
@@ -73,4 +73,4 @@ for (i = 0; i < n; i++) {
 }
 ```
 
-Complexity: O(n*log(n))
+Complexity: ...
