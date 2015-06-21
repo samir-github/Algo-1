@@ -17,7 +17,7 @@ public:
     double squareRoot(int number) {
 
         double left = 0, right = number*2;
-        double mid = left + (right-left); // left + right /2
+        double mid = left + (right-left)/2; // left + right /2
         double mid_squared = mid*mid;
 
         while (abs(number - mid_squared) > eps){
