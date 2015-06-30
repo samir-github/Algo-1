@@ -24,6 +24,7 @@ public:
 
         queue<int> q;
         q.push(startingPoint);
+        visited[startingPoint] = true;
 
         while(!q.empty()){
             if(isCoffeStore[q.front()]){
@@ -31,18 +32,22 @@ public:
             }
             for(int i = 0; i < size; i++){
                 if (graph[q.front()][i]){
-                    q.push(i);
+                    if(!visited[i]){
+                        visited[i] = true;
+                        q.push(i);
+                    }
                 }
             }
             q.pop();
         }
 
-    return -1;
+        delete[] visited;
+        return -1;
     }
 };
 
-/*
 
+/*
 int main(){
 
 
@@ -67,10 +72,10 @@ int main(){
 
     return 0;
 }
-
-
-
 */
+
+
+
 
 
 
