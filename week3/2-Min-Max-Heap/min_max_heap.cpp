@@ -23,6 +23,20 @@ public:
 class MinMaxHeap {
 public:
 
+
+    bool arr_isMinMaxHeap(int tree[100000], int root, int size, int lower = INT_MIN, int higher = INT_MAX, bool min_level = true){
+
+        if(root >= size) return true;
+        if(tree[root] < lower || tree[root] > higher) return false;
+        if(min_level){
+            return(arr_isMinMaxHeap(tree, root*2+1, size,  tree[root], higher, false) && arr_isMinMaxHeap(tree, root*2+2, size, tree[root], higher, false) );
+        } else {
+            return(arr_isMinMaxHeap(tree, root*2+1, size, lower, tree[root], true)    && arr_isMinMaxHeap(tree, root*2+2, size, lower, tree[root], true) );
+        }
+
+    }
+
+
     // Checks if a binary tree is a min/max heap.
     bool isMinMax(Node* root) {
 
@@ -108,6 +122,26 @@ public:
     }
 };
 int main(){
+
+    int n, tmp;
+    int tree[100000];
+
+    cin >> n;
+    for(int i = 0; i < n; i++){
+        cin >> tmp;
+        tree[i] = tmp;
+    }
+
+    MinMaxHeap min_max_heap_tester;
+    if(min_max_heap_tester.arr_isMinMaxHeap(tree, 0, n)){
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+
+
+
+
 
 
 /*
