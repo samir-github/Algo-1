@@ -26,7 +26,7 @@ public:
 
     bool arr_is_bst(int tree[100000], int root, int size, int lower = INT_MIN, int higher = INT_MAX){
 
-        if(root => size || tree[root] == 0) return true;
+        if(root >= size || tree[root] == 0) return true;
         if(tree[root] <= lower || tree[root] >= higher) return false;
         return(arr_is_bst(tree, root*2+1, size, lower, tree[root]) && arr_is_bst(tree, root*2+2, size, tree[root], higher));
     }
