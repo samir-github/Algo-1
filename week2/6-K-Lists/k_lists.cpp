@@ -23,7 +23,7 @@ class KLists {
 public:
 
     // Merge K sorted lists.
-    Node merge(vector<Node> lists) {
+    void merge(vector<Node> lists) {
 
         Node answer;
         Node* answer_tail = &answer;
@@ -50,12 +50,11 @@ public:
         }
 
 
-
-
-
+        /*
         for(auto e : lists){
             cout << e.value << " ";
         }
+        */
 
     }
 
@@ -101,7 +100,7 @@ private:
 int main(){
 
 
-/*
+
     vector<Node> input = {
         Node(3, new Node(5, new Node(7, new Node(9, NULL)))),
         Node(2, new Node(4, new Node(6, NULL))),
@@ -110,7 +109,7 @@ int main(){
 
     KLists klist;
     klist.merge(input);
-*/
+
 
 
 /*

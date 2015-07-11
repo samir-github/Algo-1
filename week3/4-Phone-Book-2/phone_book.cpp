@@ -62,10 +62,14 @@ public:
                     parent = current;
                     current = current->left;
                 }
-                else{
+                else if(contact.name > current->value.name ){
                     from_left = false;
                     parent = current;
                     current = current->right;
+                }
+                else{
+                    current->value.number = contact.number;
+                    return;
                 }
             }
             if(from_left){
@@ -79,40 +83,34 @@ public:
 
     //lookup a name and print its phone number
     void lookup(string name){
-        if(root->value.name == name){
-            cout << root->value.number;
-        }
-        else{
-            Node* current = root;
-            bool found = false;
-            bool more_people = true;
 
-            while(!found && more_people){
 
-                if(name < current->value.name){
-                    if(current->left != NULL){
-                        current = current->left;
-                    }else{
-                        more_people = false;
-                    }
-                }
-                else if(name > current->value.name){
-                    if(current->right != NULL){
-                        current = current->right;
-                    }else{
-                        more_people = false;
-                    }
+        Node* current = root;
+        bool found = false;
+        bool more_people = true;
+
+        while(!found && more_people){
+
+            if(name < current->value.name){
+                if(current->left != NULL){
+                    current = current->left;
                 }else{
-                    found = true;
+                    more_people = false;
                 }
             }
-
-            if(found){
-                cout << current->value.number << endl;
+            else if(name > current->value.name){
+                if(current->right != NULL){
+                    current = current->right;
+                }else{
+                    more_people = false;
+                }
             }else{
-                cout << "NOT FOUND!" << endl;
-            }
+                found = true;
+                // find first in in-order with null left child
+                Node* to_replace;
+                while()
 
+            }
         }
     }
 
@@ -124,6 +122,36 @@ public:
     //remove a record for a given name
     void remove(string name){
 
+
+        if(root == NULL){
+            root = new Node(contact);
+        }
+        else{
+            Node* parent = NULL;
+            Node* current = root;
+            bool from_left;
+            while(current != NULL){
+                if(contact.name < current->value.name){
+                    from_left = true;
+                    parent = current;
+                    current = current->left;
+                }
+                else if(contact.name > current->value.name ){
+                    from_left = false;
+                    parent = current;
+                    current = current->right;
+                }
+                else{
+                    current->value.number = contact.number;
+                    return;
+                }
+            }
+            if(from_left){
+                parent->left = new Node(contact);
+            }
+            else{
+                parent->right = new Node(contact);
+            }
     }
 
 
@@ -158,6 +186,32 @@ private:
 int main(){
 
 
+    int n, number;
+    string command, name;
+    PhoneBook pb;
+
+    cin >> n;
+    while(n--){
+        cin >> command;
+        if (command == "insert"){
+            cin >> number >> name;
+            pb.insert(Contact(number, name));
+        }
+        else if(command == "lookup"){
+            cin >> name;
+            pb.lookup(name);
+        }
+        else if(command == "list"){
+            pb.list();
+        }
+    }
+
+
+
+
+
+
+/*
     PhoneBook pb;
     pb.insert(Contact(140, "Ivan"));
     pb.insert(Contact(1337, "Aba"));
@@ -169,8 +223,7 @@ int main(){
     pb.insert(Contact(911, "Beta"));
     pb.insert(Contact(112, "Baba"));
     pb.insert(Contact(42, "Exa"));
-    /*
-    */
+
     pb.list();
 
     pb.lookup("Plazma");
@@ -180,8 +233,8 @@ int main(){
     pb.lookup("Baba");
     pb.lookup("Exa");
     pb.lookup("ivan");
-
     cout << endl;
+*/
 
 
 
