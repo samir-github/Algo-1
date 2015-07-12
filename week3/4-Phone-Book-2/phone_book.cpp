@@ -6,6 +6,7 @@
 #include <vector>
 #include <queue>
 #include <set>
+#include <map>
 #include <cstring>
 
 using namespace std;
@@ -14,7 +15,7 @@ using namespace std;
 class Contact {
 public:
 
-    Contact(int number, string name){
+    Contact(int number = -1, string name = ""){
         this->name = name;
         this->number = number;
     }
@@ -24,6 +25,7 @@ public:
 
 
 class PhoneBook {
+
 private:
     class Node {
     public:
@@ -34,9 +36,10 @@ private:
         Node* left;
         Node* right;
     };
+
 public:
 
-
+    Node* root;
 
     //constructor
     PhoneBook(): root(NULL){
@@ -52,6 +55,7 @@ public:
         if(root == NULL){
             root = new Node(contact);
         }
+
         else{
             Node* parent = NULL;
             Node* current = root;
@@ -81,16 +85,21 @@ public:
         }
     }
 
+
+
     //lookup a name and print its phone number
     void lookup(string name){
 
-
+        int phone_number = -1;
         Node* current = root;
         bool found = false;
         bool more_people = true;
 
-        while(!found && more_people){
+        if(root == NULL){
+            more_people = false;
+        }
 
+        while(!found && more_people){
             if(name < current->value.name){
                 if(current->left != NULL){
                     current = current->left;
@@ -106,60 +115,34 @@ public:
                 }
             }else{
                 found = true;
-                // find first in in-order with null left child
-                Node* to_replace;
-                while()
-
+                phone_number = current->value.number;
             }
         }
+        if(found){
+            cout << phone_number << endl;
+        } else {
+            cout << "NOT FOUND!" << endl;
+        }
     }
+
+
 
     //list all records in an alphabetical order
     void list() {
         in_order_print(root);
     }
 
+
+
     //remove a record for a given name
-    void remove(string name){
-
-
-        if(root == NULL){
-            root = new Node(contact);
-        }
-        else{
-            Node* parent = NULL;
-            Node* current = root;
-            bool from_left;
-            while(current != NULL){
-                if(contact.name < current->value.name){
-                    from_left = true;
-                    parent = current;
-                    current = current->left;
-                }
-                else if(contact.name > current->value.name ){
-                    from_left = false;
-                    parent = current;
-                    current = current->right;
-                }
-                else{
-                    current->value.number = contact.number;
-                    return;
-                }
-            }
-            if(from_left){
-                parent->left = new Node(contact);
-            }
-            else{
-                parent->right = new Node(contact);
-            }
+    Node* remove(Node* start, string name){
+        root = recursive_remove(start, name);
     }
 
 
 
-
-
 private:
-   Node* root;
+
 
     void delete_tree(Node* current){
         if(current != NULL){
@@ -169,8 +152,9 @@ private:
         }
     }
 
-    void in_order_print(Node* current){
 
+
+    void in_order_print(Node* current){
         if(current != NULL){
             in_order_print(current->left);
             cout << current->value.name << " " << current->value.number << endl;
@@ -180,6 +164,51 @@ private:
 
 
 
+    Node* recursive_remove(Node* rt, string name){
+        if(rt == NULL){
+            // go to end of function and return rt
+            //cout << "NULL" << endl;
+        }
+        else if(name < rt->value.name){
+            rt->left = recursive_remove(rt->left, name);
+        }
+        else if(name > rt->value.name){
+            rt->right = recursive_remove(rt->right, name);
+        }
+        // found
+        else{
+            // if leaf node
+            if(rt->left == NULL && rt->right == NULL){
+                delete rt;
+                rt = NULL;
+            }
+            // if 1 child
+            else if(rt->left == NULL){
+                Node* tmp = rt;
+                rt = rt->right;
+                delete tmp;
+            }
+            else if(rt->right == NULL){
+                Node* tmp = rt;
+                rt = rt->left;
+                delete tmp;
+            }
+            // has 2 child
+            else{
+                // find min in right subtree
+                Node* current = rt->right;
+                while(current->left != NULL){
+                    current = current->left;
+                }
+                // rt->value = min element->value
+                rt->value.name = current->value.name;
+                rt->value.number = current->value.number;
+                // remove min element
+                rt->right = recursive_remove(rt->right, current->value.name);
+            }
+        }
+        return rt;
+    }
 };
 
 
@@ -204,16 +233,17 @@ int main(){
         else if(command == "list"){
             pb.list();
         }
+        else if(command == "remove"){
+            cin >> name;
+            pb.remove(pb.root, name);
+        }
     }
 
 
-
-
-
-
 /*
-    PhoneBook pb;
-    pb.insert(Contact(140, "Ivan"));
+
+    pb.insert(Contact(140, "A"));
+    //pb.remove(pb.root, "Ivan");
     pb.insert(Contact(1337, "Aba"));
     pb.insert(Contact(360, "USA"));
     pb.insert(Contact(720, "Jon"));
@@ -224,19 +254,35 @@ int main(){
     pb.insert(Contact(112, "Baba"));
     pb.insert(Contact(42, "Exa"));
 
+    PhoneBook pb;
+    pb.insert(Contact(140, "50"));
+    pb.remove(pb.root, "A");
+    pb.insert(Contact(360, "30"));
+    pb.insert(Contact(720, "80"));
+    pb.insert(Contact(420, "70"));
+    pb.insert(Contact(3141592, "90"));
+    pb.insert(Contact(1337, "60"));
+    pb.insert(Contact(165, "75"));
+    pb.insert(Contact(911, "85"));
+    pb.insert(Contact(112, "95"));
+    pb.insert(Contact(42, "65"));
+    pb.insert(Contact(42, "67"));
     pb.list();
 
-    pb.lookup("Plazma");
-    pb.lookup("Aba");
-    pb.lookup("USA");
-    pb.lookup("NONE");
-    pb.lookup("Baba");
-    pb.lookup("Exa");
-    pb.lookup("ivan");
+    pb.remove(pb.root, "50");
+    pb.remove(pb.root, "Exa");
+    pb.lookup("4");
+    pb.lookup("2");
+    pb.lookup("8");
+    pb.lookup("1");
+    pb.lookup("3");
+    pb.lookup("5");
+    pb.lookup("9");
     cout << endl;
+
+    cout << "NEW PRINT" << endl;
+    pb.list();
 */
-
-
 
     return 0;
 }

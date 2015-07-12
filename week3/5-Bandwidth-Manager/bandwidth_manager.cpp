@@ -85,8 +85,11 @@ int main() {
     string command, protocol, payload;
     BandwidthManager bm;
     map<string, int> priority_of= {{"ICMP", 0}, {"UDP", 1}, {"RTM", 2}, {"IGMP", 3}, {"DNS", 4}, {"TCP", 5}};
+    int n;
+    cin >> n;
 
-    while(cin >> command) {
+    while(n--) {
+        cin >> command;
         if(command == "rcv") {
             cin >> protocol >> payload;
             bm.rcv(priority_of[protocol], payload);
@@ -95,7 +98,6 @@ int main() {
             cout << bm.send() << endl;
         }
     }
-
     return 0;
 }
 
