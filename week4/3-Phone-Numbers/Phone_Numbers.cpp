@@ -29,7 +29,7 @@ int main() {
 
     }
     // for each student number, add the numbers it can contact in a array of lists
-    // i = the number of the student, elements of each list = the numbers he can call
+    // i = the phone_number of the student, elements of each list = the numbers he can call
     for (int i : student_numbers) {
 
         int amount_of_friends;
