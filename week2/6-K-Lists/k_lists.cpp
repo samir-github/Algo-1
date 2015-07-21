@@ -1,129 +1,72 @@
 #include <iostream>
 #include <typeinfo>
 #include <climits>
-#include <limits>
 #include <algorithm>
 #include <vector>
+#include <queue>
+#include <stack>
+#include <list>
+#include <forward_list>
+#include <set>
+#include <map>
+#include <utility>
+#include <iomanip>
 #include <cstring>
 
 using namespace std;
 
-class Node {
-public:
 
-    Node(int value = INT_MIN, Node* next = NULL): value(value), next(next){
-    }
-    int value;
-    Node* next;
-};
+double pw(double a, int n) {
 
+    double ret = 1;
+    while (n) {
 
-
-class KLists {
-public:
-
-    // Merge K sorted lists.
-    void merge(vector<Node> lists) {
-
-        Node answer;
-        Node* answer_tail = &answer;
-
-        make_heap(lists, lists.size());
-
-        while(!lists.empty()){
-
-            answer_tail->next = new Node(lists[0].value, lists[0].next);
-            answer_tail = answer_tail->next;
-            cout << answer_tail->value << endl;
-
-            if(lists[0].next != NULL){
-
-                lists[0] = *(lists[0].next);
-                heapify(lists, lists.size());
-
-            } else {
-
-                lists[0] = lists.back();
-                lists.pop_back();
-                heapify(lists, lists.size());
-            }
+        if (n%2 == 1){
+            ret *= a;
         }
-
-
-        /*
-        for(auto e : lists){
-            cout << e.value << " ";
-        }
-        */
+        a *= a;
+        n /= 2;
 
     }
+    return ret;
+}
 
-private:
-    //min heap
-    void make_heap(vector<Node> &seq, int size){
+double rec_pw(double a, int n) {
 
-        for(int i = size/2; i >= 0; i--){
-
-            int parent = i;
-
-            while(parent*2+2 < size && (seq[parent].value > seq[parent*2+1].value || seq[parent].value > seq[parent*2+2].value)){
-
-                int smallest_child = seq[parent*2+1].value < seq[parent*2+2].value ? parent*2+1 : parent*2+2;
-
-                swap(seq[smallest_child], seq[parent]);
-                parent = smallest_child;
-            }
-            if(parent*2+1 < size && seq[parent].value > seq[parent*2+1].value){
-                swap(seq[parent], seq[parent*2+1]);
-            }
-        }
+    if(n == 0) return 1;
+    if(n == 1) return a;
+    double t = rec_pw(a, n/2);
+    if(n%2 == 0){
+        return t*t;
     }
-    void heapify(vector<Node> &seq, int size){
+    return t*t*a;
 
-        int parent = 0;
+}
 
-            while(parent*2+2 < size && (seq[parent].value > seq[parent*2+1].value || seq[parent].value > seq[parent*2+2].value)){
+int main() {
 
-                int smallest_child = seq[parent*2+1].value < seq[parent*2+2].value ? parent*2+1 : parent*2+2;
-
-                swap(seq[smallest_child], seq[parent]);
-                parent = smallest_child;
-            }
-            if(parent*2+1 < size && seq[parent].value > seq[parent*2+1].value){
-                swap(seq[parent], seq[parent*2+1]);
-            }
-    }
-
-};
-
-
-int main(){
+    cout << rec_pw(2, 5) << endl;
 
 
 
-    vector<Node> input = {
-        Node(3, new Node(5, new Node(7, new Node(9, NULL)))),
-        Node(2, new Node(4, new Node(6, NULL))),
-        Node(0, new Node(1, new Node(8, new Node(10, NULL))))
-    };
-
-    KLists klist;
-    klist.merge(input);
 
 
 
-/*
-    for(auto i : input){
-        while(i.next != NULL){
-            cout << i.value << " ";
-            i = *i.next;
-        }
-        cout << i.value << endl;
-    }
-*/
+
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
